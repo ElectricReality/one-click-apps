@@ -1,0 +1,42 @@
+{
+  "captainVersion": "2",
+  "documentation": "https://github.com/tcardonne/docker-github-runner",
+  "displayName": "Github Runner",
+  "description": "The runner is the application that runs a job from a GitHub Actions workflow. The runner can run on the hosted machine pools or run on self-hosted environments.",
+  "dockerCompose": {
+    "version": "3.3",
+    "services": {
+      "$$cap_appname": {
+        "image": "tcardonne/github-runner:latest",
+        "volumes": ["/var/run/docker.sock:/var/run/docker.sock"],
+        "restart": "always",
+        "environment": {
+          "RUNNER_NAME": "$$cap_runner_name",
+          "RUNNER_REPOSITORY_URL": "$$cap_runner_repo",
+          "GITHUB_ACCESS_TOKEN": "$$cap_runner_token"
+        }
+      }
+    }
+  },
+  "instructions": {
+    "start": "Make sure all blanks are filled with the proper information. You can get your Github Access Token from the Personal Access Token created on your settings page with repo scope.",
+    "end": "Please check your repository for the Runner."
+  },
+  "variables": [
+    {
+      "id": "$$cap_runner_name",
+      "label": "Runner Name",
+      "validRegex": "/.{1,}/"
+    },
+    {
+      "id": "$$cap_runner_repo",
+      "label": "Repository URL",
+      "validRegex": "/.{1,}/"
+    },
+    {
+      "id": "$$cap_runner_token",
+      "label": "Github Access Token",
+      "validRegex": "/^([^\\s^\\/])+$/"
+    }
+  ]
+}
